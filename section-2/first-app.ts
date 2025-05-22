@@ -34,6 +34,6 @@ user = {
 // One way
 // let hobbies: Array<string>;
 
-let hobbies: string[];
+let hobbies: string[]; // number[];, boolean[];
 
 hobbies = ['sports', 'cooking', 'reading'];
