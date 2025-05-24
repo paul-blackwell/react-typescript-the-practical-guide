@@ -134,7 +134,7 @@ login(new AuthCredentials());
 // };
 
 /*------------------------------------------------ */
-// 21. Merging interfaces
+// 22. Merging interfaces
 /*------------------------------------------------ */
 
 interface Admin {
@@ -152,3 +152,120 @@ admin = {
   permissions: ['login'],
   userName: 'Max',
 };
+
+/*------------------------------------------------ */
+// 22. Being Specific With Literal Types
+/*------------------------------------------------ */
+
+// let role: 'admin' | 'user' | 'editor'; // 'admin', 'user', 'editor'
+
+// role = 'admin';
+// role = 'user';
+// role = 'editor';
+// role = 'abc'; // Shouldn't work
+
+/*------------------------------------------------ */
+// 23. Adding Type Guards
+/*------------------------------------------------ */
+
+// type Role = 'admin' | 'user' | 'editor';
+
+// let role: Role;
+
+// function performAction(action: string, role: Role) {
+//   if (role === 'admin' && typeof action === 'string') {
+//     // ...
+//   }
+// }
+
+/*------------------------------------------------ */
+// 24. Type Guards & Type Narrowing - A Closer Look
+/*------------------------------------------------ */
+
+/**
+ * When using "Type Guards" (i.e., if statements
+ * that check which concrete type is being used),
+ * TypeScript performs so-called "Type Narrowing".
+ *
+ * This means that TypeScript is able to narrow a
+ * broader type down to a more specific type.
+ */
+
+// Consider this example:
+function combine(a: number | string, b: number | string) {
+  if (typeof a === 'number' && typeof b === 'number') {
+    return a + b;
+  }
+
+  return `${a} ${b}`;
+}
+
+/**
+ * In this example, inside the if statement, TypeScript
+ * narrows the types of a & b from "either a number or a
+ * string" down to "definitely a number" - because that's
+ * what the condition of the if check says (and TypeScript
+ * "understands" that).
+ *
+ * After the if statement, TypeScript
+ * understands that a and b are again either a number or a
+ * string"  because we only make it into the if statement if both are of type number. The type therefore is broader again.
+ */
+
+/**
+ * Important: You can NOT check if a value meets the definition
+ * of a custom type (type alias) or interface type. These are
+ * TypeScript-specific features for which no JavaScript
+ * equivalent exists. Therefore, since those if checks
+ * need to run at runtime, you can't write any code that
+ * would be able to check for those types at runtime.
+ */
+
+/*------------------------------------------------ */
+// 25. Making Sense Of Generic Types
+/*------------------------------------------------ */
+
+type Role = 'admin' | 'user' | 'editor';
+
+// Example of a built in generic type
+let role: Array<Role>;
+role = ['admin', 'editor'];
+
+// Or could to this
+// let role: Role[];
+// role = ['admin', 'editor'];
+
+// Custom generic type
+type DataStorage<T> = {
+  storage: T[];
+  add: (data: T) => void;
+};
+
+const textStorage: DataStorage<string> = {
+  storage: [],
+  add(data) {
+    this.storage.push[data];
+  },
+};
+
+const userStorage: DataStorage<User> = {
+  storage: [],
+  add(user) {
+    // ...
+  },
+};
+
+function merge<T, U>(a: T, b: U) {
+  return {
+    ...a,
+    ...b,
+  };
+}
+
+// const newUser = merge<{ name: string }, { age: number }>(
+//   { name: 'max' },
+//   { age: 34 }
+// );
+
+// But can also infer
+const newUser = merge({ name: 'max' }, { age: 34 });
