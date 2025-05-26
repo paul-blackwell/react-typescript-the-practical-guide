@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   return (
     <p>
       <label htmlFor={id}>{label}</label>
-      <input id={id} {...props} ref={ref} />
+      <input name={id} id={id} {...props} ref={ref} />
     </p>
   );
 });
