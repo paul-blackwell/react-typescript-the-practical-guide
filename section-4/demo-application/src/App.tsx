@@ -1,5 +1,14 @@
+import { useRef } from 'react';
+import Input from './components/input';
+
 function App() {
-  return <h1>Let's get started!</h1>;
+  const inputRef = useRef(null);
+
+  return (
+    <main>
+      <Input label="Test" id="test" ref={inputRef} />
+    </main>
+  );
 }
 
 export default App;
